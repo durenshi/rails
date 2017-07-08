@@ -1,0 +1,136 @@
+<h2>编辑用户</h2>
+
+<div class="row">
+  <div class="col-md-6 col-md-offset-2">
+<%= form_for :user, url: user_path(@user), method: :patch do |f| %>
+
+        <% if @user.errors.any? %>
+          <div id="error_explanation">
+            <h2>
+              <%= pluralize(@user.errors.count, "error") %> prohibited
+              this article from being saved:
+            </h2>
+            <ul>
+              <% @user.errors.full_messages.each do |msg| %>
+                  <li><%= msg %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+      <div class="form-group">
+        <p>
+          <%= f.text_field :id  ,class: 'form-control' %>
+        </p>
+      </div>
+      <br>
+      <div class="form-group">
+        <p>
+          <%= f.label :用户名： %>
+          <%= f.text_field :user_name  ,class: 'form-control' %>
+        </p>
+      </div>
+      <br>
+
+
+    <label>用户状态:</label>
+    <div class= "radio form-group" >
+      <label>
+        <%= radio_button(:user,:active, true) %>启用
+      </label>
+      <label>
+        <%= radio_button(:user,:active, false) %>禁用
+      </label>
+    </div>
+
+      <br>
+
+    <p>
+      <label>分配项目:</label>
+      <%= select_tag 'user[user_projects_attributes][][project_id]',
+                     options_for_select(@projects.collect{ |p| [p.project_name, p.id] }, @project.project_id),
+                     class:"form-control"
+      %>
+    </p>
+
+      <br>
+
+    <div class = "groups">
+      <label>分配组:</label>
+      <ul>
+        <% @groups.each do |group| %>
+            <li>
+
+                <%= check_box_tag 'user[user_groups_attributes][][group_id]', group.id %>
+                <%= group.group_name %>
+
+            </li>
+        <% end %>
+      </ul>
+    </div>
+
+      <div class = "usergroup" style="display: none">
+        <ul>
+          <% @usergroups.each do |usergroup| %>
+              <li><%= usergroup.group_id %></li>
+          <% end %>
+        </ul>
+        <% @user.user_roles.each do |userrole| %>
+            <p class="rolename"><%= userrole.role_id %></p>
+        <% end %>
+        <!--<p class="rolename"></p>-->
+      </div>
+
+      <br>
+
+      <div class="userroles">
+        <label>角色选择:</label>
+            <ul>
+              <% UserRole.role_ids.keys.each do |role_id| %>
+                  <li>
+
+                    <%= check_box_tag 'user[user_roles_attributes][][role_id]',role_id %>
+                    <%= role_id %>
+                  </li>
+              <% end %>
+            </ul>
+      </div>
+
+      <br>
+    <p>
+      <%= f.submit "确  定" , class:"btn btn-info" %>
+    </p>
+      <br>
+<% end %>
+
+<%= link_to '返回', users_path %>
+</div>
+</div>
+
+<script>
+  $(function(){
+      $('#user_user_name').attr("readonly",true);//将input元素设置为readonly
+
+      $(".usergroup ul").find("li").each(function () {
+          $(".groups ul").find("li").find("input[type=checkbox][value="+$(this).text()+"]").prop("checked",true);
+      });
+
+      $(".usergroup .rolename").each(function () {
+          $(".userroles ul").find("input[type=checkbox][value="+$(this).text()+"]").prop("checked",true);
+      });
+
+      $("#user_user_projects_attributes__project_id").click(function(){
+          $.ajax({
+              url:"/get_all_projects",
+              success:function (data) {
+                  
+              }
+          });
+      });
+
+    });
+
+
+
+</script>
+

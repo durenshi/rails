@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_name: MyString
+  project_type: MyString
+  project_begin: MyString
+  project_end: MyString
+  is_delete: false
+
+two:
+  project_name: MyString
+  project_type: MyString
+  project_begin: MyString
+  project_end: MyString
+  is_delete: false

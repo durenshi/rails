@@ -1,0 +1,39 @@
+
+
+<p id="notice"><%= notice %></p>
+
+<h2><%=t :project_manage%></h2>
+
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th><%=t :project_name%></th>
+      <th><%=t :project_type%></th>
+      <th><%=t :project_begin_at%></th>
+      <th><%=t :project_end_at%></th>
+
+      <th colspan="3"><%=t :operation%></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= project.project_name %></td>
+        <td><%= project.project_type %></td>
+        <td><%= project.begin_at %></td>
+        <td><%= project.end_at %></td>
+
+        <td><%= link_to "#{t('show')}", project %></td>
+        <td><%= link_to "#{t('edit')}", edit_project_path(project) %></td>
+        <td><%= link_to "#{t('delete')}", project, method: :delete, data: { confirm: '你确定要删除该项目吗?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @projects %>
+
+<br>
+
+<div class="new"><%= link_to "#{t('new_project')}", new_project_path %></div>

@@ -1,0 +1,60 @@
+<p id="notice"><%= notice %></p>
+
+
+<div class="tabnav">
+  <button class="btn" onclick="tranTab('project')">项目详情</button>
+  <button class="btn" onclick="tranTab('user')">项目成员</button>
+</div>
+
+<div id="project" class="tab">
+  <p>
+    <strong>项目名称:</strong>
+    <%= @project.project_name %>
+  </p>
+
+  <p>
+    <strong>项目类型:</strong>
+    <%= @project.project_type %>
+  </p>
+
+  <p>
+    <strong>开始时间:</strong>
+    <%= @project.begin_at %>
+  </p>
+
+  <p>
+    <strong>结束时间:</strong>
+    <%= @project.end_at %>
+  </p>
+</div>
+
+<div id="user" class = "tab" style="display:none">
+  <p>
+    <strong>项目成员:</strong>
+    <% @users.each do |user| %>
+        <%= link_to user.user_name, edit_user_path(user) %>
+    <% end %>
+  </p>
+</div>
+
+<script>
+    function tranTab(name) {
+
+        $(".tab").css("display","none");
+        $("#"+name).css("display","block");
+    }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+<%= link_to '编辑', edit_project_path(@project) %> |
+<%= link_to '返回', projects_path %>

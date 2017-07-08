@@ -1,0 +1,40 @@
+<%= form_with(model: project, local: true) do |form| %>
+  <% if project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% project.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :项目名称 %>
+    <%= form.text_field :project_name, id: :project_project_name ,class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :项目类型 %>
+    <%= form.text_field :project_type, id: :project_project_type ,class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :开始时间 %>
+    <%= form.date_field :begin_at, id: :project_begin_at ,value: project.begin_at,class: 'form-control' %>
+  </div>
+
+  <div class="field">
+    <%= form.label :结束时间 %>
+    <%= form.date_field :end_at, id: :project_end_at ,value: project.end_at,class: 'form-control' %>
+  </div>
+
+    <!--<input type="hidden" name="project[is_delete]" id="project_is_delete" value="0"> -->
+  <%= hidden_field(:project, :is_delete, :value => 0) %>
+
+  <div class="actions">
+    <%= form.submit class: "btn btn-info" %>
+  </div>
+<% end %>

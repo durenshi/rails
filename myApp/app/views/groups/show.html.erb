@@ -1,0 +1,16 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>组名:</strong>
+  <%= @group.group_name %>
+</p>
+
+<p>
+  <strong>组成员:</strong>
+  <% @users.each do |user| %>
+      <%= link_to user.user_name, edit_user_path(user) %>
+  <% end %>
+</p>
+
+<%= link_to '编辑', edit_group_path(@group) %> |
+<%= link_to '返回', groups_path %>

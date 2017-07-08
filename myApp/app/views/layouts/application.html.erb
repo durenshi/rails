@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Myapp</title>
+    <%= csrf_meta_tags %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+          <li><%= link_to "#{t('project_manage')}", projects_path %></li>
+          <li><%= link_to "#{t('user_manage')}", users_path %></li>
+          <li><%= link_to "#{t('group_manage')}", groups_path %></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#"> <%= t :hello%>, <%= session[:current_user_id] %></a></li>
+          <li><%= link_to "#{t('logout')}", logout_path, method: :delete %></li>
+          <li><%= select_tag(:locale,options_for_select([['中文','zh-CN'],['英文','en']]), class:"locale_select") %></li>
+        </ul>
+
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+  <div class="container">
+    <%= yield %>
+
+    <footer class="footer">
+      <small>
+        The <a href="#">demo</a> make
+        by <a href="#">durenshi</a>
+      </small>
+      <nav>
+        <ul>
+          <li><%= link_to "About",   '#' %></li>
+          <li><%= link_to "Contact", '#' %></li>
+          <li><a href="#">News</a></li>
+        </ul>
+      </nav>
+    </footer>
+  </div>
+  </body>
+<script>
+
+  $(function(){
+
+      if(get_param("locale")==null){
+          $("#locale").val("zh-CN");
+      }
+      else
+          $("#locale").val(get_param("locale"))
+
+      $("#locale").change(function(){
+          set_param("locale", $(this).val());
+      });
+  });
+
+  function get_param(param){
+      var query = location.search.substring(1).split('&');
+      for (var i=0;i<query.length;i++){
+          var kv = query[i].split('=');
+          if (kv[0]==param){
+              return kv[1];
+          }
+      }
+      return null;
+  }
+
+  function set_param(param,value){
+//    注意location.search获取到的是url中？开始到#之间的内容（包含？但不包含#）
+      var query = location.search.substring(1);
+      var p = new RegExp("(^"+param+")=[^&]*");
+      if (p.test(query)){
+          query = query.replace(p, "$1="+value);//$1表示匹配到的第一个内容，然后接上=value
+          location.search = '?'+query;
+      }
+      else{
+          if (query == ''){
+              location.search = '?'+param+'='+value;
+          }
+          else{
+              location.search = '?'+query+'&'+param+'='+value;
+          }
+      }
+  }
+</script>
+</html>
